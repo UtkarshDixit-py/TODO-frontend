@@ -2,6 +2,8 @@
 const inputBox = document.querySelector(".inputField input");
 const addBtn = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
+const deleteAllBtn = document.querySelector(".footer button");
+
 
 
 inputBox.onkeyup = ()=>{
@@ -32,6 +34,7 @@ addBtn.onclick = () =>{
     listArr.push(userData);//adding user data
     localStorage.setItem("New Todo",JSON.stringify(listArr)); //converting js object into a json string
     showTasks(); //calling show task function
+    addBtn.classList.remove("active");
 }
 
 
@@ -43,6 +46,14 @@ function showTasks(){
     }
     else{
         listArr=JSON.parse(getLocalStorage);//converting json string into a js object
+    }
+    const pendingNumb = document.querySelector(".pendingNumb");
+    pendingNumb.textContent = listArr.length;//giving the length value in pending tasks;
+    if(listArr.length>0){//active clear all button 
+        deleteAllBtn.classList.add("active");
+    }
+    else{
+        deleteAllBtn.classList.remove("active");//unactive clear all button
     }
     let newLiTag='';
     listArr.forEach((element, index) => {
@@ -60,4 +71,14 @@ function deleteTask(index){
     // after removing the item updating the local storage
     localStorage.setItem("New Todo",JSON.stringify(listArr)); //converting js object into a json string
     showTasks(); //calling show task function
+}
+
+//deleteing all the tasks
+
+deleteAllBtn.onclick =()=>{
+    listArr=[];//empty an array
+     // after removing all items updating the local storage
+     localStorage.setItem("New Todo",JSON.stringify(listArr)); //converting js object into a json string
+     showTasks(); //calling show task function
+
 }
